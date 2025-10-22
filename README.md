@@ -224,7 +224,7 @@ Veritabanı işlemleri (DbContext, Repository)
 Servis bağımlılıklarının doğrudan kullanımı (örneğin EF Core erişimi)
 
 🔹 Basit akış örneği:
-
+```
 [HTTP Request] → Presentation (Controller)
                      ↓
                Application (Service)
@@ -234,7 +234,7 @@ Servis bağımlılıklarının doğrudan kullanımı (örneğin EF Core erişimi
          Infrastructure (Destek servisler)
                      ↓
 [HTTP Response] ← Presentation
-
+```
 
 ```
 Solution
