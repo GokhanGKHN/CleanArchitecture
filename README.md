@@ -37,10 +37,12 @@ Burada genellikle şu yapılar yer alır:
 Yani “**bir ürün nasıl eklenir, nasıl listelenir**” gibi kurallar Application katmanında tanımlanır,  
 ancak “**veritabanına nasıl kaydedilir**” kısmı Core içinde **tanımlanmaz** — o işi Infrastructure veya Persistence katmanı yapar.
 
+```
 Solution
  └── src
       ├── Core
       └── External
+```
 
 Clean Architecture yapısında **`External`** klasörü (veya bazen “Infrastructure”, “Adapters”, “Integration” olarak da adlandırılır), sistemin **dış dünya ile olan iletişimlerini** yöneten katmandır.
 
@@ -61,11 +63,13 @@ Uygulamanın çekirdek iş kuralları (Core) dışındaki, dış sistemlerle vey
 | **Email / SMS Services**         | Harici iletişim servisleri                                              |
 | **Logging / Caching**            | Loglama veya cache altyapısı (Serilog, Redis vs.)                       |
 
+```
 Solution
  └── src
       ├── Core
       └── External
            ├── Infrastructure
+```
 
 **`Infrastructure` (altyapı)** klasörü genellikle **`External`** klasörünün içinde bulunur ve uygulamanın **altyapı bağımlılıklarını** (örneğin veritabanı, dosya sistemi, e-posta servisi gibi dış kaynaklar) yönetir.
 
@@ -86,12 +90,14 @@ Bu katman **Core’daki interface’leri** somut olarak (implementation) gerçek
     
 - **Servis implementasyonlarını** sağlamak
 
+```
 Solution
  └── src
       ├── Core
       └── External
            ├── Infrastructure
            └── Persistence
+```
 
 Burada **`Persistence`**, Clean Architecture’da **veri erişim katmanıdır**.
 
@@ -112,7 +118,7 @@ Veritabanı bağlantısı, Entity Framework (EF Core) context’i, repository s�
 | **Repository implementasyonları** | Core katmanında tanımlı interface’lerin (örneğin `IUserRepository`) gerçek implementasyonları burada olur. |
 | **Migration işlemleri**           | EF Core migration dosyaları genellikle burada tutulur.                                                     |
 
-
+```
 Solution
  └── src
       ├── Core
@@ -120,6 +126,7 @@ Solution
            ├── Infrastructure
            ├── Persistence
            └── Presentation
+```
 
 `Presentation` nedir?
 
@@ -138,8 +145,9 @@ bunları **Application katmanına iletir** ve sonucu dış dünyaya döner.
 | **Application katmanını çağırmak**        | İş mantığı Presentation’da değil, Application katmanında olur. Presentation sadece yönlendirir. |
 | **API endpoint tanımlamak**               | `[HttpGet]`, `[HttpPost]`, `[Route]` gibi controller metodları burada bulunur.                  |
 | **Validation ve Authorization başlatmak** | İstekleri doğrulamak, kullanıcı yetkisini kontrol etmek.                                        |
-|                                           |                                                                                                 |
-
+|       
+|                                                                                                 |
+```
 🔹 Basit akış örneği:
 
 [HTTP Request] → Presentation (Controller)
@@ -151,7 +159,9 @@ bunları **Application katmanına iletir** ve sonucu dış dünyaya döner.
          Infrastructure (Destek servisler)
                      ↓
 [HTTP Response] ← Presentation
+```
 
+```
 Solution
  └── src
       ├── Core
@@ -160,7 +170,8 @@ Solution
       │   ├── Persistence
       │   └── Presentation
  └── test
- 
+ ```
+
 Uygulamanın **otomatik testlerini** (unit test, integration test vb.) tutmaktır.
 
 ## 🔹 Kısaca tanım:
