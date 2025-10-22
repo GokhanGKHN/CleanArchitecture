@@ -183,9 +183,8 @@ bunları **Application katmanına iletir** ve sonucu dış dünyaya döner.
 | **Application katmanını çağırmak**        | İş mantığı Presentation’da değil, Application katmanında olur. Presentation sadece yönlendirir. |
 | **API endpoint tanımlamak**               | `[HttpGet]`, `[HttpPost]`, `[Route]` gibi controller metodları burada bulunur.                  |
 | **Validation ve Authorization başlatmak** | İstekleri doğrulamak, kullanıcı yetkisini kontrol etmek.                                        |
-|       
-|                                                                                                 |
-```
+                                                                                           
+
 ```
 Solution
  └── src
