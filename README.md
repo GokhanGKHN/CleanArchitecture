@@ -1,7 +1,7 @@
 ```
 Solution
-	src → Uygulamanın ana kodları
-		Core →
+ └── src
+      ├── Core
 			
 ```
 
@@ -37,12 +37,10 @@ Burada genellikle şu yapılar yer alır:
 Yani “**bir ürün nasıl eklenir, nasıl listelenir**” gibi kurallar Application katmanında tanımlanır,  
 ancak “**veritabanına nasıl kaydedilir**” kısmı Core içinde **tanımlanmaz** — o işi Infrastructure veya Persistence katmanı yapar.
 
-```
 Solution
-	src
-		Core
-		External
-```
+ └── src
+      ├── Core
+      └── External
 
 Clean Architecture yapısında **`External`** klasörü (veya bazen “Infrastructure”, “Adapters”, “Integration” olarak da adlandırılır), sistemin **dış dünya ile olan iletişimlerini** yöneten katmandır.
 
@@ -63,13 +61,11 @@ Uygulamanın çekirdek iş kuralları (Core) dışındaki, dış sistemlerle vey
 | **Email / SMS Services**         | Harici iletişim servisleri                                              |
 | **Logging / Caching**            | Loglama veya cache altyapısı (Serilog, Redis vs.)                       |
 
-```
 Solution
-	src
-		Core
-		External
-			Infrastructure
-```
+ └── src
+      ├── Core
+      └── External
+           ├── Infrastructure
 
 **`Infrastructure` (altyapı)** klasörü genellikle **`External`** klasörünün içinde bulunur ve uygulamanın **altyapı bağımlılıklarını** (örneğin veritabanı, dosya sistemi, e-posta servisi gibi dış kaynaklar) yönetir.
 
@@ -89,3 +85,91 @@ Bu katman **Core’daki interface’leri** somut olarak (implementation) gerçek
 - **Dependency Injection (DI)** yapılandırmalarını yapmak
     
 - **Servis implementasyonlarını** sağlamak
+
+Solution
+ └── src
+      ├── Core
+      └── External
+           ├── Infrastructure
+           └── Persistence
+
+Burada **`Persistence`**, Clean Architecture’da **veri erişim katmanıdır**.
+
+**Persistence**, uygulamanın **veriyi kalıcı hale getirdiği** (örneğin veritabanına yazma, okuma, güncelleme, silme) işlemlerini yöneten katmandır.
+
+## 🔹 Kısaca tanım:
+
+**Persistence**, “verinin kalıcılığı” ile ilgilenir.  
+Veritabanı bağlantısı, Entity Framework (EF Core) context’i, repository sınıfları ve veri modellerinin konfigürasyonları burada yer alır.
+
+🔹 Persistence katmanının görevleri:
+
+| Görev                             | Açıklama                                                                                                   |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Veritabanı bağlantısı**         | EF Core veya Dapper gibi araçlarla DB bağlantısını sağlar.                                                 |
+| **DbContext yönetimi**            | EF Core `DbContext` sınıfı burada olur.                                                                    |
+| **Entity konfigürasyonları**      | Tablo, kolon, ilişki ayarları (`EntityTypeConfiguration`) yapılır.                                         |
+| **Repository implementasyonları** | Core katmanında tanımlı interface’lerin (örneğin `IUserRepository`) gerçek implementasyonları burada olur. |
+| **Migration işlemleri**           | EF Core migration dosyaları genellikle burada tutulur.                                                     |
+
+
+Solution
+ └── src
+      ├── Core
+      └── External
+           ├── Infrastructure
+           ├── Persistence
+           └── Presentation
+
+`Presentation` nedir?
+
+**Presentation**, uygulamanın **kullanıcıya veya dış dünyaya “sunulduğu” katmandır.**  
+Başka bir deyişle: **Uygulamanın dış dünyadan (örneğin web, API, UI) gelen istekleri karşıladığı katmandır.**
+
+Bu katman, API veya kullanıcı arayüzü (UI) üzerinden gelen talepleri alır,  
+bunları **Application katmanına iletir** ve sonucu dış dünyaya döner.
+
+🔹 Görevi:
+
+| Görev                                     | Açıklama                                                                                        |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **HTTP API oluşturmak**                   | Web API controller’ları burada bulunur.                                                         |
+| **Kullanıcı arayüzü (UI) sağlamak**       | Eğer proje MVC, Blazor, Angular vb. içeriyorsa bu katman onların başlangıç noktası olur.        |
+| **Application katmanını çağırmak**        | İş mantığı Presentation’da değil, Application katmanında olur. Presentation sadece yönlendirir. |
+| **API endpoint tanımlamak**               | `[HttpGet]`, `[HttpPost]`, `[Route]` gibi controller metodları burada bulunur.                  |
+| **Validation ve Authorization başlatmak** | İstekleri doğrulamak, kullanıcı yetkisini kontrol etmek.                                        |
+|                                           |                                                                                                 |
+
+🔹 Basit akış örneği:
+
+[HTTP Request] → Presentation (Controller)
+                     ↓
+               Application (Service)
+                     ↓
+              Persistence (Database)
+                     ↓
+         Infrastructure (Destek servisler)
+                     ↓
+[HTTP Response] ← Presentation
+
+Solution
+ └── src
+      ├── Core
+      ├── External
+      │   ├── Infrastructure
+      │   ├── Persistence
+      │   └── Presentation
+ └── test
+ 
+Uygulamanın **otomatik testlerini** (unit test, integration test vb.) tutmaktır.
+
+## 🔹 Kısaca tanım:
+
+> **`test` klasörü**, proje kodunun doğruluğunu, hatasız çalıştığını ve gelecekteki değişikliklerden etkilenmediğini test etmek için yazılan **test projelerini** barındırır.
+
+
+| Test türü                                | Açıklama                                                                                 |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **Unit Test (Birim Testi)**              | Kodun en küçük parçalarını (ör. bir servis veya metot) tek başına test eder.             |
+| **Integration Test (Entegrasyon Testi)** | Farklı katmanların (örneğin API ↔ DB ↔ Service) birlikte doğru çalıştığını kontrol eder. |
+| **End-to-End Test (Uçtan Uca Test)**     | Gerçek kullanıcı senaryolarını (örneğin API isteği → veritabanı → cevap) test eder.      |
