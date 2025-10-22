@@ -5,7 +5,7 @@ Solution
 			
 ```
 
- ⚙️ **3. Core**
+ ⚙️ **Core**
 `Core` projenin **çekirdek (merkezi)** katmanıdır.
 Burada **iş kuralları (business rules)**, **domain modelleri**, **interface (arayüz) tanımları** gibi mimarinin kalbi bulunur.
 Yani “**uygulamanın ne yaptığ**ı” burada tanımlanır — “**nasıl yaptığı**” değil.
