@@ -186,6 +186,43 @@ bunları **Application katmanına iletir** ve sonucu dış dünyaya döner.
 |       
 |                                                                                                 |
 ```
+```
+Solution
+ └── src
+      ├── Core
+      └── External
+           ├── Infrastructure
+           ├── Persistence
+           └── Presentation
+                └── Controllers
+```
+Controllers, dış dünyadan (örneğin HTTP isteklerinden) gelen talepleri karşılayan sınıfları barındırır.
+Yani API’nin “kapısıdır.”
+
+Kısacası:
+🧭 Kullanıcı veya istemci (örneğin Postman, web uygulaması, mobil app) bir istek gönderir → Controller bu isteği alır → Application katmanına yönlendirir → sonucu dış dünyaya geri döner.
+
+🔹 Görevi:
+| Görev                                  | Açıklama                                                                                |
+| -------------------------------------- | --------------------------------------------------------------------------------------- |
+| **HTTP isteklerini karşılamak**        | `[HttpGet]`, `[HttpPost]`, `[HttpPut]`, `[HttpDelete]` gibi metodlar burada tanımlanır. |
+| **İstek parametrelerini almak**        | Route, Query, Body verilerini okur.                                                     |
+| **Application katmanına yönlendirmek** | Controller içinde iş mantığı **olmaz**, sadece yönlendirme yapılır.                     |
+| **HTTP yanıtlarını döndürmek**         | `Ok()`, `BadRequest()`, `NotFound()` gibi sonuçlar döndürülür.                          |
+
+[ApiController] → bu sınıfın bir API controller olduğunu belirtir
+
+[Route("api/[controller]")] → endpoint adresini tanımlar
+
+IUserService → Application katmanındaki iş mantığını temsil eder
+
+Ok() → HTTP 200 cevabını döner
+
+🔹 Controller katmanında olmaması gerekenler:
+Veritabanı işlemleri (DbContext, Repository)
+İş mantığı (örneğin hesaplama, doğrulama kuralları)
+Servis bağımlılıklarının doğrudan kullanımı (örneğin EF Core erişimi)
+
 🔹 Basit akış örneği:
 
 [HTTP Request] → Presentation (Controller)
