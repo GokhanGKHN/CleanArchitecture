@@ -195,6 +195,7 @@ Solution
            └── Presentation
                 └── Controllers
 ```
+
 Controllers, dış dünyadan (örneğin HTTP isteklerinden) gelen talepleri karşılayan sınıfları barındırır.
 Yani API’nin “kapısıdır.”
 
@@ -233,7 +234,7 @@ Servis bağımlılıklarının doğrudan kullanımı (örneğin EF Core erişimi
          Infrastructure (Destek servisler)
                      ↓
 [HTTP Response] ← Presentation
-```
+
 
 ```
 Solution
