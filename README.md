@@ -12,15 +12,18 @@ Yani “**uygulamanın ne yaptığ**ı” burada tanımlanır — “**nasıl ya
 `Core` hiçbir şekilde dış katmanlara (örneğin veri tabanı, web API vs.) bağımlı değildir.
 
 ```
+```
 Solution
-	src Uygulamanın ana kodları
-		Core 
-			Application
+ └── src
+      ├── Core
+	  ├── Aplication
+			
+```
 			
 			
 ```
 
-`Application` klasörü, **iş mantığının (business logic)** uygulandığı katmandır.
+`Application` , **iş mantığının (business logic)** uygulandığı katmandır.
 
 Burada genellikle şu yapılar yer alır:
 
@@ -36,6 +39,41 @@ Burada genellikle şu yapılar yer alır:
 
 Yani “**bir ürün nasıl eklenir, nasıl listelenir**” gibi kurallar Application katmanında tanımlanır,  
 ancak “**veritabanına nasıl kaydedilir**” kısmı Core içinde **tanımlanmaz** — o işi Infrastructure veya Persistence katmanı yapar.
+
+
+```
+Solution
+ └── src
+      ├── Core
+	  ├── Aplication
+	  ├── Domain
+			
+```
+
+Bu yapı, iş kuralları (business logic) ile iş kurallarının temel modellerini (entities, value objects) birbirinden ayırmak için kullanılır.
+Şimdi sadece Domain katmanına odaklanalım 👇
+
+🔹 Domain Katmanı Nedir?
+
+Domain katmanı, uygulamanın iş kurallarının merkezidir (kalbidir).
+Yani sistemin ne yaptığını tanımlar, nasıl yaptığını değil.
+
+🔹 Görevi
+Temel iş modellerini tanımlamak	Entity, Value Object, Enum gibi kavramlar burada bulunur.
+Kuralları barındırmak	Örneğin: “Bir fatura iptal edilmeden ödeme yapılamaz.” gibi kurallar burada yer alır.
+Bağımsız olmak	Domain hiçbir dış katmana (veritabanı, servis, API vs.) bağlı olmaz.
+Sadece iş anlamına odaklanmak	Teknik detaylar (SQL, HTTP, dosya, API vs.) Domain’de bulunmaz.
+
+🔹 İçeriğinde genelde bulunanlar
+
+| Dosya / klasör    | Açıklama                                                      |
+| ----------------- | ------------------------------------------------------------- |
+| **Entities/**     | Temel varlıklar (ör. `User`, `Order`, `Product`)              |
+| **ValueObjects/** | Değer nesneleri (ör. `Money`, `Address`, `Email`)             |
+| **Enums/**        | Sabit durumlar (ör. `OrderStatus`, `UserRole`)                |
+| **DomainEvents/** | Domain içinde meydana gelen olaylar (ör. `OrderCreatedEvent`) |
+| **Exceptions/**   | Domain kuralları ihlallerini belirten özel istisnalar         |
+
 
 ```
 Solution
