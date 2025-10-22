@@ -11,7 +11,7 @@ Burada **iş kuralları (business rules)**, **domain modelleri**, **interface (a
 Yani “**uygulamanın ne yaptığ**ı” burada tanımlanır — “**nasıl yaptığı**” değil.
 `Core` hiçbir şekilde dış katmanlara (örneğin veri tabanı, web API vs.) bağımlı değildir.
 
-```
+
 ```
 Solution
  └── src
