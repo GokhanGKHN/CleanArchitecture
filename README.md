@@ -21,7 +21,7 @@ Solution
 ```
 			
 			
-```
+
 
 `Application` , **iş mantığının (business logic)** uygulandığı katmandır.
 
